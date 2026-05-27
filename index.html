@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aum Khamar — Video Editor & Social Media Manager</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #0a0a0a;
+    --white: #f5f2ec;
+    --accent: #e8ff47;
+    --accent2: #ff5c35;
+    --gray: #1a1a1a;
+    --gray2: #2a2a2a;
+    --muted: #888;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 3rem;
+    background: rgba(10,10,10,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    letter-spacing: 0.08em;
+    color: var(--white);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--accent); }
+  nav ul { list-style: none; display: flex; gap: 2rem; }
+  nav ul a {
+    color: var(--muted); text-decoration: none; font-size: 0.85rem;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  nav ul a:hover { color: var(--white); }
+  .nav-cta {
+    background: var(--accent); color: var(--black) !important;
+    padding: 0.5rem 1.2rem; border-radius: 2px; font-weight: 500 !important;
+    transition: opacity 0.2s !important;
+  }
+  .nav-cta:hover { opacity: 0.85; color: var(--black) !important; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid; grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 6rem 3rem 3rem;
+    gap: 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: -200px; right: -200px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(232,255,71,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: rgba(232,255,71,0.1); border: 1px solid rgba(232,255,71,0.25);
+    color: var(--accent); font-size: 0.78rem; letter-spacing: 0.1em;
+    text-transform: uppercase; padding: 0.4rem 1rem; border-radius: 2px;
+    margin-bottom: 1.5rem;
+  }
+  .hero-tag::before {
+    content: ''; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent); animation: pulse 1.5s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; } 50% { opacity: 0.3; }
+  }
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3.5rem, 7vw, 6rem);
+    line-height: 0.95;
+    letter-spacing: 0.02em;
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 em { color: var(--accent); font-style: normal; }
+  .hero-sub {
+    color: var(--muted); font-size: 1rem; line-height: 1.7;
+    max-width: 440px; margin-bottom: 2.5rem;
+  }
+  .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--accent); color: var(--black);
+    padding: 0.85rem 2rem; border-radius: 2px;
+    font-family: 'DM Sans', sans-serif; font-weight: 500;
+    font-size: 0.9rem; letter-spacing: 0.04em;
+    text-decoration: none; text-transform: uppercase;
+    transition: opacity 0.2s, transform 0.2s;
+    display: inline-flex; align-items: center; gap: 0.5rem;
+  }
+  .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+  .btn-outline {
+    border: 1px solid rgba(255,255,255,0.2); color: var(--white);
+    padding: 0.85rem 2rem; border-radius: 2px;
+    font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
+    letter-spacing: 0.04em; text-decoration: none; text-transform: uppercase;
+    transition: border-color 0.2s, transform 0.2s;
+    display: inline-flex; align-items: center; gap: 0.5rem;
+  }
+  .btn-outline:hover { border-color: rgba(255,255,255,0.5); transform: translateY(-1px); }
+
+  .hero-stats {
+    display: flex; gap: 2rem; margin-top: 3rem;
+    padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif; font-size: 2rem;
+    color: var(--accent); display: block;
+  }
+  .stat-label { font-size: 0.78rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+
+  .hero-visual {
+    position: relative; display: flex; align-items: center; justify-content: center;
+  }
+  .hero-card {
+    background: var(--gray); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 6px; padding: 2rem; width: 100%; max-width: 420px;
+    position: relative; overflow: hidden;
+  }
+  .hero-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+  }
+  .card-reel-label {
+    font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--muted); margin-bottom: 1rem;
+  }
+  .card-reel-title {
+    font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem;
+    letter-spacing: 0.05em; margin-bottom: 0.5rem;
+  }
+  .card-reel-sub { font-size: 0.85rem; color: var(--muted); margin-bottom: 1.5rem; }
+  .card-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .tag {
+    font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em;
+    padding: 0.3rem 0.75rem; border-radius: 2px;
+    border: 1px solid rgba(255,255,255,0.12); color: var(--muted);
+  }
+  .tag.accent { border-color: rgba(232,255,71,0.4); color: var(--accent); background: rgba(232,255,71,0.05); }
+
+  /* SECTION COMMON */
+  section { padding: 6rem 3rem; }
+  .section-label {
+    font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.14em;
+    color: var(--accent); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.75rem;
+  }
+  .section-label::before {
+    content: ''; display: inline-block; width: 30px; height: 1px; background: var(--accent);
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2rem, 4vw, 3.2rem); letter-spacing: 0.03em;
+    line-height: 1.05; margin-bottom: 1rem;
+  }
+  .section-sub { color: var(--muted); max-width: 520px; line-height: 1.7; font-size: 0.95rem; }
+
+  /* SERVICES */
+  .services-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1px; background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 4px; overflow: hidden; margin-top: 3rem;
+  }
+  .service-item {
+    background: var(--black); padding: 2rem 1.75rem;
+    transition: background 0.2s;
+  }
+  .service-item:hover { background: var(--gray); }
+  .service-icon {
+    width: 40px; height: 40px; border-radius: 4px;
+    background: rgba(232,255,71,0.1); border: 1px solid rgba(232,255,71,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; margin-bottom: 1.2rem; color: var(--accent);
+  }
+  .service-name {
+    font-weight: 500; font-size: 0.95rem; margin-bottom: 0.6rem; letter-spacing: 0.02em;
+  }
+  .service-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
+
+  /* WORK / PORTFOLIO */
+  #portfolio { background: var(--gray); }
+  .work-header {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    flex-wrap: wrap; gap: 1.5rem; margin-bottom: 3rem;
+  }
+  .work-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+  .work-item {
+    background: var(--black); border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 4px; overflow: hidden;
+    transition: transform 0.25s, border-color 0.25s;
+  }
+  .work-item:hover { transform: translateY(-4px); border-color: rgba(232,255,71,0.3); }
+  .work-video-wrap {
+    position: relative; width: 100%; padding-top: 56.25%;
+    background: #111;
+  }
+  .work-video-wrap iframe {
+    position: absolute; inset: 0; width: 100%; height: 100%; border: none;
+  }
+  .work-info { padding: 1.25rem 1.5rem; }
+  .work-category {
+    font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--accent); margin-bottom: 0.4rem;
+  }
+  .work-title { font-weight: 500; font-size: 0.95rem; margin-bottom: 0.4rem; }
+  .work-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+  /* Drive folder embed fallback */
+  .drive-embed {
+    width: 100%; height: 480px; border: none; border-radius: 4px;
+    background: #111;
+  }
+
+  /* WHY ME */
+  .why-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 3rem; align-items: center; margin-top: 3rem;
+  }
+  .why-points { display: flex; flex-direction: column; gap: 1.5rem; }
+  .why-point { display: flex; gap: 1rem; align-items: flex-start; }
+  .why-num {
+    font-family: 'Bebas Neue', sans-serif; font-size: 2rem;
+    color: rgba(232,255,71,0.25); line-height: 1; min-width: 2rem;
+    flex-shrink: 0;
+  }
+  .why-point-text h4 { font-weight: 500; font-size: 0.95rem; margin-bottom: 0.4rem; }
+  .why-point-text p { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
+  .why-cta-box {
+    background: var(--gray); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 4px; padding: 2.5rem; position: relative; overflow: hidden;
+  }
+  .why-cta-box::before {
+    content: ''; position: absolute; bottom: 0; right: 0;
+    width: 180px; height: 180px;
+    background: radial-gradient(circle, rgba(232,255,71,0.08) 0%, transparent 70%);
+  }
+  .cta-quote {
+    font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem;
+    line-height: 1.2; margin-bottom: 1.5rem; letter-spacing: 0.03em;
+  }
+  .cta-quote span { color: var(--accent); }
+
+  /* CLIENTS */
+  .clients-section { background: var(--gray2); }
+  .client-types {
+    display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2.5rem;
+  }
+  .client-pill {
+    padding: 0.6rem 1.5rem; border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 100px; font-size: 0.85rem; color: var(--muted);
+    letter-spacing: 0.04em;
+    transition: border-color 0.2s, color 0.2s;
+    cursor: default;
+  }
+  .client-pill:hover { border-color: var(--accent); color: var(--white); }
+
+  /* CONTACT */
+  #contact { background: var(--black); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; margin-top: 3rem; }
+  .contact-links { display: flex; flex-direction: column; gap: 1rem; margin-top: 1.5rem; }
+  .contact-link {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 1rem 1.25rem; border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 4px; text-decoration: none; color: var(--white);
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .contact-link:hover { border-color: rgba(232,255,71,0.3); background: var(--gray); }
+  .contact-link-icon {
+    width: 36px; height: 36px; border-radius: 4px;
+    background: rgba(232,255,71,0.1);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; color: var(--accent); flex-shrink: 0;
+  }
+  .contact-link-text { font-size: 0.85rem; color: var(--muted); margin-top: 0.1rem; }
+  .contact-link-label { font-size: 0.9rem; font-weight: 500; }
+
+  .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+  .contact-form input,
+  .contact-form textarea {
+    background: var(--gray); border: 1px solid rgba(255,255,255,0.08);
+    color: var(--white); font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem; padding: 0.85rem 1rem; border-radius: 2px;
+    outline: none; width: 100%; resize: vertical;
+    transition: border-color 0.2s;
+  }
+  .contact-form input:focus,
+  .contact-form textarea:focus { border-color: rgba(232,255,71,0.4); }
+  .contact-form input::placeholder,
+  .contact-form textarea::placeholder { color: var(--muted); }
+  .contact-form textarea { min-height: 120px; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 2rem 3rem;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 1rem;
+  }
+  footer p { font-size: 0.8rem; color: var(--muted); }
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 0.08em;
+    color: var(--white); text-decoration: none;
+  }
+  .footer-logo span { color: var(--accent); }
+
+  /* ANIMATIONS */
+  .fade-up {
+    opacity: 0; transform: translateY(24px);
+    animation: fadeUp 0.7s ease forwards;
+  }
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .fade-up:nth-child(1) { animation-delay: 0.1s; }
+  .fade-up:nth-child(2) { animation-delay: 0.2s; }
+  .fade-up:nth-child(3) { animation-delay: 0.3s; }
+  .fade-up:nth-child(4) { animation-delay: 0.4s; }
+
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    nav ul { display: none; }
+    .hero { grid-template-columns: 1fr; padding: 5rem 1.5rem 3rem; gap: 2.5rem; }
+    .hero-visual { display: none; }
+    section { padding: 4rem 1.5rem; }
+    .why-grid, .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .hero-stats { gap: 1.5rem; }
+    footer { padding: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">AUM<span>.</span>K</a>
+  <ul>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#portfolio">Work</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact" class="nav-cta">Let's Talk</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div>
+    <div class="hero-tag fade-up">Available for Projects</div>
+    <h1 class="fade-up">
+      Video<br>
+      <em>Editor</em><br>
+      & Social<br>
+      Media<br>Manager
+    </h1>
+    <p class="hero-sub fade-up">
+      I help cafes, restaurants, salons, and creators in Pune grow their brand through scroll-stopping video content — Reels, promos, highlights & more.
+    </p>
+    <div class="hero-btns fade-up">
+      <a href="#portfolio" class="btn-primary">View My Work ↓</a>
+      <a href="#contact" class="btn-outline">Book a Free Call</a>
+    </div>
+    <div class="hero-stats fade-up">
+      <div>
+        <span class="stat-num">1–2</span>
+        <span class="stat-label">Years Experience</span>
+      </div>
+      <div>
+        <span class="stat-num">Pune</span>
+        <span class="stat-label">Based, India</span>
+      </div>
+      <div>
+        <span class="stat-num">Fast</span>
+        <span class="stat-label">Turnaround</span>
+      </div>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-card">
+      <p class="card-reel-label">Latest Project</p>
+      <p class="card-reel-title">Brand Reel — Cafe Client</p>
+      <p class="card-reel-sub">Short-form video content for Instagram & Reels</p>
+      <div class="card-tags">
+        <span class="tag accent">Reels</span>
+        <span class="tag">After Effects</span>
+        <span class="tag">Premiere Pro</span>
+        <span class="tag">Color Grade</span>
+        <span class="tag">Motion Graphics</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <p class="section-label">What I Offer</p>
+  <h2 class="section-title">Services Built for<br>Local Businesses</h2>
+  <p class="section-sub">Every service is tailored to help your brand stand out on Instagram, YouTube, and beyond.</p>
+  <div class="services-grid">
+    <div class="service-item">
+      <div class="service-icon">▶</div>
+      <p class="service-name">Reels & Short-Form Video</p>
+      <p class="service-desc">Scroll-stopping Instagram Reels and YouTube Shorts edited for maximum engagement and brand personality.</p>
+    </div>
+    <div class="service-item">
+      <div class="service-icon">🎬</div>
+      <p class="service-name">Cafe & Restaurant Promos</p>
+      <p class="service-desc">Cinematic promo videos showcasing your ambience, menu, and vibe — perfect for ads and organic reach.</p>
+    </div>
+    <div class="service-item">
+      <div class="service-icon">✂️</div>
+      <p class="service-name">Long-Form Editing</p>
+      <p class="service-desc">YouTube videos, vlogs, and podcast clips edited cleanly with pacing, captions, and motion graphics.</p>
+    </div>
+    <div class="service-item">
+      <div class="service-icon">📱</div>
+      <p class="service-name">Social Media Management</p>
+      <p class="service-desc">Planning, scheduling, and managing your content calendar so you stay consistent without the stress.</p>
+    </div>
+    <div class="service-item">
+      <div class="service-icon">🎨</div>
+      <p class="service-name">Motion Graphics & Titles</p>
+      <p class="service-desc">Custom animated text, lower thirds, and branded intros/outros that make your content look premium.</p>
+    </div>
+    <div class="service-item">
+      <div class="service-icon">🎵</div>
+      <p class="service-name">Color Grading & Sound</p>
+      <p class="service-desc">Cinematic color grades and professional audio mixing to give your videos that polished, pro finish.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio">
+  <div class="work-header">
+    <div>
+      <p class="section-label">My Work</p>
+      <h2 class="section-title">Portfolio</h2>
+      <p class="section-sub">A selection of recent projects across cafes, brands, and creators.</p>
+    </div>
+  </div>
+
+  <!-- Drive Folder Embed -->
+  <div style="margin-bottom: 2rem;">
+    <iframe class="drive-embed"
+      src="https://drive.google.com/embeddedfolderview?id=1EqHxXIT0swVjB7xsu3uBXkP9-AXw3kT2#grid"
+      title="Aum Khamar Portfolio Videos">
+    </iframe>
+  </div>
+
+  <p style="font-size:0.82rem; color: var(--muted); text-align:center; margin-top: 1rem;">
+    Can't see the videos above?
+    <a href="https://drive.google.com/drive/folders/1EqHxXIT0swVjB7xsu3uBXkT2?usp=drive_link"
+       style="color: var(--accent); text-decoration: none;"
+       target="_blank" rel="noopener">Open full portfolio on Google Drive →</a>
+  </p>
+</section>
+
+<!-- WHY ME -->
+<section id="about">
+  <p class="section-label">Why Work With Me</p>
+  <h2 class="section-title">The Aum Khamar Advantage</h2>
+  <div class="why-grid">
+    <div class="why-points">
+      <div class="why-point">
+        <span class="why-num">01</span>
+        <div class="why-point-text">
+          <h4>Pune-Based, Business-Focused</h4>
+          <p>I understand the local Pune market — the aesthetic, the audience, and what gets engagement in our city's cafes, salons, and lifestyle brands.</p>
+        </div>
+      </div>
+      <div class="why-point">
+        <span class="why-num">02</span>
+        <div class="why-point-text">
+          <h4>Cafe & Restaurant Experience</h4>
+          <p>I've worked specifically with food & beverage brands — I know how to capture atmosphere, plating, and the vibe that makes people want to visit.</p>
+        </div>
+      </div>
+      <div class="why-point">
+        <span class="why-num">03</span>
+        <div class="why-point-text">
+          <h4>Fast Turnaround, No Guesswork</h4>
+          <p>Clear communication, quick revisions, and deadlines that don't slip. You focus on your business; I handle the visuals.</p>
+        </div>
+      </div>
+      <div class="why-point">
+        <span class="why-num">04</span>
+        <div class="why-point-text">
+          <h4>Video + Social Strategy Together</h4>
+          <p>Unlike most editors, I also manage social media — so your content doesn't just look great, it gets posted at the right time to the right audience.</p>
+        </div>
+      </div>
+    </div>
+    <div class="why-cta-box">
+      <p class="cta-quote">
+        "Your audience is scrolling.<br>
+        Make them <span>stop.</span>"
+      </p>
+      <p style="font-size:0.88rem; color: var(--muted); line-height:1.7; margin-bottom: 1.8rem;">
+        In 2024, businesses without consistent video content are invisible online. I help you change that — with professional edits that reflect your brand and drive real results.
+      </p>
+      <a href="#contact" class="btn-primary">Let's Discuss Your Project →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CLIENTS I WORK WITH -->
+<section class="clients-section">
+  <p class="section-label">Who I Work With</p>
+  <h2 class="section-title">Built for Pune's<br>Creative Businesses</h2>
+  <p class="section-sub">From your neighbourhood cafe to Instagram influencers — I understand your content needs.</p>
+  <div class="client-types">
+    <span class="client-pill">☕ Cafes</span>
+    <span class="client-pill">🍽️ Restaurants</span>
+    <span class="client-pill">💇 Salons & Spas</span>
+    <span class="client-pill">📱 Instagram Creators</span>
+    <span class="client-pill">▶️ YouTubers</span>
+    <span class="client-pill">🛍️ Local Brands</span>
+    <span class="client-pill">🎤 Podcasters</span>
+    <span class="client-pill">🏋️ Fitness Studios</span>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <p class="section-label">Get in Touch</p>
+  <h2 class="section-title">Let's Create<br>Something Great</h2>
+  <p class="section-sub">
+    No pricing on this page — because every project is different. Let's have a quick call, understand your needs, and I'll give you a custom proposal.
+  </p>
+  <div class="contact-grid">
+    <div>
+      <p style="font-size:0.88rem; color: var(--muted); line-height:1.7; margin-bottom:1.5rem;">
+        Reach out on any platform below. I typically respond within a few hours. Based in Pune, available for both local and remote collaborations.
+      </p>
+      <div class="contact-links">
+        <a href="mailto:your@email.com" class="contact-link">
+          <div class="contact-link-icon">✉️</div>
+          <div>
+            <p class="contact-link-label">Email Me</p>
+            <p class="contact-link-text">your@email.com</p>
+          </div>
+        </a>
+        <a href="https://instagram.com/yourhandle" target="_blank" rel="noopener" class="contact-link">
+          <div class="contact-link-icon">📸</div>
+          <div>
+            <p class="contact-link-label">Instagram</p>
+            <p class="contact-link-text">@yourhandle</p>
+          </div>
+        </a>
+        <a href="https://wa.me/91XXXXXXXXXX" target="_blank" rel="noopener" class="contact-link">
+          <div class="contact-link-icon">💬</div>
+          <div>
+            <p class="contact-link-label">WhatsApp</p>
+            <p class="contact-link-text">+91 XXXXX XXXXX</p>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div>
+      <div class="contact-form">
+        <input type="text" placeholder="Your Name" />
+        <input type="email" placeholder="Your Email" />
+        <input type="text" placeholder="Business / Brand Name (optional)" />
+        <textarea placeholder="Tell me about your project — what do you need?"></textarea>
+        <button class="btn-primary" style="border:none; cursor:pointer; justify-content:center;"
+          onclick="alert('Thanks! This is a static portfolio. Please reach out via email or WhatsApp.')">
+          Send Message →
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="#" class="footer-logo">AUM<span>.</span>KHAMAR</a>
+  <p>Video Editor & Social Media Manager — Pune, India</p>
+  <p>© 2025 Aum Khamar. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
