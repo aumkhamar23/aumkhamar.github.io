@@ -566,14 +566,14 @@
             <p class="contact-link-text">aum.khamar23@gmail.com</p>
           </div>
         </a>
-        <a href="https://instagram.com/yourhandle" target="_blank" rel="noopener" class="contact-link">
+        <a href="https://instagram.com/aumkhamarr" target="_blank" rel="noopener" class="contact-link">
           <div class="contact-link-icon">📸</div>
           <div>
             <p class="contact-link-label">Instagram</p>
             <p class="contact-link-text">@aumkhamarr</p>
           </div>
         </a>
-        <a href="https://wa.me/91XXXXXXXXXX" target="_blank" rel="noopener" class="contact-link">
+        <a href="https://wa.me/917043388618" target="_blank" rel="noopener" class="contact-link">
           <div class="contact-link-icon">💬</div>
           <div>
             <p class="contact-link-label">WhatsApp</p>
@@ -583,16 +583,15 @@
       </div>
     </div>
     <div>
-      <div class="contact-form">
-        <input type="text" placeholder="Your Name" />
-        <input type="email" placeholder="Your Email" />
-        <input type="text" placeholder="Business / Brand Name (optional)" />
-        <textarea placeholder="Tell me about your project — what do you need?"></textarea>
-        <button class="btn-primary" style="border:none; cursor:pointer; justify-content:center;"
-          onclick="alert('Thanks! This is a static portfolio. Please reach out via email or WhatsApp.')">
+      <form class="contact-form" action="https://formsubmit.co/aum.khamar23@gmail.com" method="POST">
+        <input type="text" name="name" placeholder="Your Name" required />
+        <input type="email" name="email" placeholder="Your Email" required />
+        <input type="text" name="business" placeholder="Business / Brand Name (optional)" />
+        <textarea name="message" placeholder="Tell me about your project — what do you need?" required></textarea>
+        <button type="submit" class="btn-primary" style="border:none; cursor:pointer; justify-content:center;">
           Send Message →
         </button>
-      </div>
+      </form>
     </div>
   </div>
 </section>
